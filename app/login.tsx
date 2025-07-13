@@ -15,6 +15,7 @@ import { ErrorDisplay } from '@/components/ErrorDisplay';
 import { createTestUsers, getTestCredentials } from '@/utils/devUtils';
 import { config } from '@/utils/config';
 import { LogIn, User, Lock } from 'lucide-react-native';
+import { analytics } from '@/utils/analytics';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -33,7 +34,10 @@ export default function LoginScreen() {
     setLocalError(null);
     const success = await login(email, password);
     if (success) {
+      analytics.track('user_login', { email });
       router.replace('/(tabs)');
+    } else {
+      analytics.track('user_login_failed', { email });
     }
   };
 

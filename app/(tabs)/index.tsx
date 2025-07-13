@@ -15,6 +15,7 @@ import { Vehicle, Inspection, Announcement } from '@/types';
 import { ErrorDisplay } from '@/components/ErrorDisplay';
 import { Car, Calendar, TriangleAlert as AlertTriangle, CircleCheck as CheckCircle, Circle as XCircle, Bell, ChartBar as BarChart3, Users, LogOut } from 'lucide-react-native';
 import { router } from 'expo-router';
+import { analytics } from '@/utils/analytics';
 
 export default function DashboardScreen() {
   const { user, logout } = useAuth();
@@ -29,6 +30,7 @@ export default function DashboardScreen() {
     loadData();
     initializeNotifications();
     setupRealtimeSubscriptions();
+    analytics.screen('Dashboard');
     
     return () => {
       // Cleanup subscriptions on unmount

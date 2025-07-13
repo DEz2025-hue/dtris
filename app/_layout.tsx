@@ -5,6 +5,7 @@ import { useFonts, Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_7
 import * as SplashScreen from 'expo-splash-screen';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { analytics } from '@/utils/analytics';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -18,6 +19,10 @@ export default function RootLayout() {
     'Inter-SemiBold': Inter_600SemiBold,
     'Inter-Bold': Inter_700Bold,
   });
+
+  useEffect(() => {
+    analytics.init(); // Initialize analytics on app start
+  }, []);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {

@@ -5,8 +5,10 @@
   "private": true,
   "scripts": {
     "dev": "expo start",
+    "build": "expo export --platform web",
     "build:web": "expo export --platform web",
     "build:web:local": "expo export --platform web --local",
+    "vercel-build": "expo export --platform web",
     "lint": "expo lint",
     "test": "jest",
     "test:watch": "jest --watch",

@@ -2,7 +2,7 @@ import { Drawer } from 'expo-router/drawer';
 import { Platform } from 'react-native';
 import { useEffect } from 'react';
 import { router, useSegments } from 'expo-router';
-import { Chrome as Home, Car, Scan, FileText, Users, Settings, ChartBar as BarChart3, Camera, Bell, TriangleAlert } from 'lucide-react-native';
+import { Chrome as Home, Car, Scan, FileText, Users, Settings, ChartBar as BarChart3, Camera, Bell, TriangleAlert, Home as Hut } from 'lucide-react-native';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types';
 import { CustomDrawerContent } from '@/components/CustomDrawerContent';
@@ -23,7 +23,7 @@ export default function DrawerLayout() {
     {
       name: 'index',
       title: 'Dashboard',
-      icon: Home,
+      icon: Hut,
       roles: ['owner', 'inspector', 'admin'],
     },
     {

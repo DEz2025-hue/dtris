@@ -4,6 +4,19 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+function copyRecursiveSync(src, dest) {
+  if (!fs.existsSync(src)) return;
+  const stat = fs.statSync(src);
+  if (stat.isDirectory()) {
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+    for (const child of fs.readdirSync(src)) {
+      copyRecursiveSync(path.join(src, child), path.join(dest, child));
+    }
+  } else {
+    fs.copyFileSync(src, dest);
+  }
+}
+
 console.log('🚀 Starting Netlify deployment for ClaMax DTRIS...');
 
 try {
@@ -25,22 +38,14 @@ try {
   // Copy client assets to server folder for Netlify
   if (fs.existsSync('dist/client') && fs.existsSync('dist/server')) {
     console.log('📁 Copying client assets to server folder...');
-    
     // Copy _expo folder
-    if (fs.existsSync('dist/client/_expo')) {
-      execSync('xcopy "dist\\client\\_expo" "dist\\server\\_expo" /E /I /Y', { stdio: 'inherit' });
-    }
-    
+    copyRecursiveSync('dist/client/_expo', 'dist/server/_expo');
     // Copy assets folder
-    if (fs.existsSync('dist/client/assets')) {
-      execSync('xcopy "dist\\client\\assets" "dist\\server\\assets" /E /I /Y', { stdio: 'inherit' });
-    }
-    
+    copyRecursiveSync('dist/client/assets', 'dist/server/assets');
     // Copy favicon
     if (fs.existsSync('dist/client/favicon.ico')) {
-      execSync('copy "dist\\client\\favicon.ico" "dist\\server\\favicon.ico"', { stdio: 'inherit' });
+      fs.copyFileSync('dist/client/favicon.ico', 'dist/server/favicon.ico');
     }
-    
     console.log('✅ Assets copied successfully!');
   }
   
